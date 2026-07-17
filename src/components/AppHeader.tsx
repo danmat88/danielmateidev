@@ -28,7 +28,7 @@ export function AppHeader() {
             <img src="/brand/logo.png" alt="" />
           </span>
           <span className="app-header__identity">
-            <strong><span>Daniel</span> <span>Matei</span></strong>
+            <strong>DANIELMATEI</strong>
             <small><i />Engineering digital worlds</small>
           </span>
         </a>
