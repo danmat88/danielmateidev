@@ -1,0 +1,103 @@
+:root {
+  color-scheme: dark;
+
+  /* Brand */
+  --emerald-300: #6ee7b7;
+  --emerald-500: #10b981;
+  --emerald-700: #047857;
+  --violet-300: #c4b5fd;
+  --violet-500: #8b5cf6;
+  --violet-700: #6d28d9;
+  --emerald-rgb: 16 185 129;
+  --violet-rgb: 139 92 246;
+  --brand-gradient: linear-gradient(135deg, var(--emerald-500) 0%, var(--violet-500) 100%);
+
+  /* Space interface materials */
+  --space-ink: #07100d;
+  --space-panel: #0d1714;
+  --space-panel-deep: #070c0b;
+  --space-metal: #b9c9c3;
+  --space-white: #edfff8;
+  --space-line: rgb(var(--emerald-rgb) / 18%);
+  --space-glow: rgb(var(--emerald-rgb) / 48%);
+  --space-glow-secondary: rgb(var(--violet-rgb) / 40%);
+
+  /* Dark foundations */
+  --color-bg: #0a0f0d;
+  --color-surface-1: #111827;
+  --color-surface-2: #1f2937;
+  --color-overlay: rgb(3 7 6 / 76%);
+  --color-border: #2d3748;
+  --color-border-strong: #475569;
+
+  /* Future light theme */
+  --light-bg: #fafaf9;
+  --light-surface: #ffffff;
+  --light-border: #e5e7eb;
+  --light-text: #111827;
+
+  /* Content */
+  --color-text: #f9fafb;
+  --color-text-secondary: #9ca3af;
+  --color-text-muted: #6b7280;
+  --color-text-disabled: #4b5563;
+
+  /* Actions */
+  --color-primary: var(--emerald-500);
+  --color-primary-hover: var(--emerald-700);
+  --color-primary-subtle: var(--emerald-300);
+  --color-on-primary: #021b12;
+  --color-secondary: var(--violet-500);
+  --color-secondary-hover: var(--violet-700);
+  --color-secondary-subtle: var(--violet-300);
+  --color-on-secondary: #ffffff;
+  --color-focus: var(--violet-300);
+  --color-selection: rgb(139 92 246 / 38%);
+
+  /* Semantic */
+  --color-success: var(--emerald-500);
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Code */
+  --color-code-bg: #0d1117;
+  --color-code-border: #30363d;
+  --color-code-text: #e6edf3;
+  --color-code-keyword: var(--violet-300);
+  --color-code-string: var(--emerald-300);
+  --color-code-comment: #8b949e;
+  --color-code-number: #79c0ff;
+
+  /* Charts */
+  --color-chart-1: var(--emerald-500);
+  --color-chart-2: var(--violet-500);
+  --color-chart-3: var(--color-info);
+  --color-chart-4: var(--color-warning);
+  --color-chart-5: #ec4899;
+  --color-chart-6: #22d3ee;
+
+  /* Type, spacing, shape */
+  --font-sans: Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: Manrope, ui-sans-serif, sans-serif;
+  --font-brand: Sora, Manrope, ui-sans-serif, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-display: clamp(2.5rem, 7vw, 6rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
