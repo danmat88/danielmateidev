@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AppBackground } from './components/AppBackground'
 import { AppHeader } from './components/AppHeader'
 import { BootLoader } from './components/BootLoader'
+import { HomeDeck } from './components/HomeDeck'
 import './styles/app.css'
 import './styles/responsive.css'
 
@@ -42,7 +43,12 @@ function App() {
     <main className="app-root">
       <AppBackground onReady={markBackgroundReady} />
       {loaderVisible && <BootLoader ready={appReady} readiness={readiness} onComplete={removeLoader} />}
-      {!loaderVisible && <AppHeader />}
+      {!loaderVisible && (
+        <>
+          <AppHeader />
+          <HomeDeck />
+        </>
+      )}
     </main>
   )
 }

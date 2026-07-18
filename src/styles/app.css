@@ -944,3 +944,259 @@
   .app-header__identity small { display: none; }
   .app-header__menu-button { width: 38px; height: 36px; }
 }
+
+/* Empty home deck ---------------------------------------------------------
+   The center sector keys into the lower notch cut from the header hull. */
+.home-deck {
+  position: absolute;
+  inset: 88px 0 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 29% 42% 29%;
+  pointer-events: none;
+}
+
+.home-deck__sector {
+  --sector-rgb: var(--emerald-rgb);
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgb(var(--sector-rgb) / 34%), rgb(var(--sector-rgb) / 8%) 32%, rgb(255 255 255 / 5%) 58%, rgb(var(--sector-rgb) / 22%));
+  clip-path: inset(0);
+  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 38%));
+}
+
+.home-deck__sector::before {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(var(--sector-rgb) / 4%) 1px, transparent 1px) 0 0 / 34px 34px,
+    linear-gradient(rgb(var(--sector-rgb) / 4%) 1px, transparent 1px) 0 0 / 34px 34px,
+    radial-gradient(circle at 50% 0, rgb(var(--sector-rgb) / 12%), transparent 38%),
+    linear-gradient(180deg, rgb(10 19 20 / 82%), rgb(3 8 12 / 62%));
+  clip-path: inherit;
+  content: '';
+  backdrop-filter: blur(10px) saturate(0.78);
+}
+
+.home-deck__sector::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, transparent 0 28%, rgb(255 255 255 / 2.5%) 28.2%, transparent 28.6% 72%, rgb(var(--sector-rgb) / 3%) 72.2%, transparent 72.6%),
+    repeating-linear-gradient(180deg, transparent 0 8px, rgb(var(--sector-rgb) / 2.2%) 9px);
+  content: '';
+  opacity: 0.8;
+}
+
+.home-deck__sector--port {
+  margin-top: 8px;
+}
+
+.home-deck__sector--core {
+  --sector-rgb: var(--violet-rgb);
+  z-index: 2;
+  clip-path: polygon(calc(21.4286% + 10px) 0, calc(78.5714% - 10px) 0, 100% 8px, 100% 100%, 0 100%, 0 8px);
+  box-shadow: inset 0 20px 50px rgb(var(--violet-rgb) / 4%);
+}
+
+.home-deck__sector--core::before {
+  background:
+    linear-gradient(90deg, rgb(var(--violet-rgb) / 5%) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(rgb(var(--violet-rgb) / 5%) 1px, transparent 1px) 0 0 / 30px 30px,
+    radial-gradient(ellipse 90% 26% at 50% 0, rgb(var(--emerald-rgb) / 13%), transparent 66%),
+    linear-gradient(180deg, rgb(9 15 21 / 91%), rgb(3 7 12 / 72%));
+}
+
+.home-deck__sector--core::after {
+  background:
+    linear-gradient(90deg, transparent, rgb(var(--emerald-rgb) / 3%) 49.8%, rgb(var(--violet-rgb) / 7%) 50%, transparent 50.2%),
+    repeating-linear-gradient(180deg, transparent 0 8px, rgb(var(--violet-rgb) / 2.6%) 9px);
+}
+
+.home-deck__sector--starboard {
+  --sector-rgb: var(--info-rgb);
+  margin-top: 8px;
+}
+
+.home-deck__energy-rail {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  width: 42%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgb(var(--sector-rgb) / 78%), var(--space-white), rgb(var(--sector-rgb) / 78%), transparent);
+  box-shadow: 0 0 8px rgb(var(--sector-rgb) / 46%), 0 0 20px rgb(var(--sector-rgb) / 18%);
+  translate: -50%;
+}
+
+.home-deck__sector--core .home-deck__energy-rail {
+  width: 72%;
+  background: linear-gradient(90deg, transparent, var(--emerald-500), var(--space-white) 50%, var(--violet-500), transparent);
+  box-shadow: 0 0 9px var(--space-glow), 0 0 18px var(--space-glow-secondary);
+}
+
+.home-deck__corner {
+  position: absolute;
+  z-index: 2;
+  bottom: 11px;
+  width: clamp(26px, 3vw, 52px);
+  height: 1px;
+  background: linear-gradient(90deg, rgb(var(--sector-rgb) / 68%), transparent);
+  box-shadow: 0 0 6px rgb(var(--sector-rgb) / 30%);
+}
+
+.home-deck__corner--start { left: 15px; }
+.home-deck__corner--end { right: 15px; rotate: 180deg; }
+
+@media (max-width: 980px) {
+  .home-deck {
+    inset: 69px 0 0;
+    grid-template-columns: 25% 50% 25%;
+  }
+
+  .home-deck__sector--port,
+  .home-deck__sector--starboard { margin-top: 7px; }
+
+  .home-deck__sector { clip-path: inset(0); }
+  .home-deck__sector--core { clip-path: polygon(calc(14% + 8px) 0, calc(86% - 8px) 0, 100% 7px, 100% 100%, 0 100%, 0 7px); }
+
+  .home-deck__sector::before {
+    background:
+      linear-gradient(90deg, rgb(var(--sector-rgb) / 4%) 1px, transparent 1px) 0 0 / 22px 22px,
+      linear-gradient(rgb(var(--sector-rgb) / 4%) 1px, transparent 1px) 0 0 / 22px 22px,
+      radial-gradient(circle at 50% 0, rgb(var(--sector-rgb) / 11%), transparent 34%),
+      linear-gradient(180deg, rgb(8 16 19 / 84%), rgb(3 7 11 / 66%));
+    backdrop-filter: blur(6px) saturate(0.78);
+  }
+
+  .home-deck__sector--core::before {
+    background:
+      linear-gradient(90deg, rgb(var(--violet-rgb) / 5%) 1px, transparent 1px) 0 0 / 20px 20px,
+      linear-gradient(rgb(var(--violet-rgb) / 5%) 1px, transparent 1px) 0 0 / 20px 20px,
+      radial-gradient(ellipse 90% 24% at 50% 0, rgb(var(--emerald-rgb) / 13%), transparent 66%),
+      linear-gradient(180deg, rgb(9 15 21 / 91%), rgb(3 7 12 / 72%));
+  }
+}
+
+/* Sequential interface deployment -------------------------------------- */
+.app-header { animation: none; }
+
+.app-header__bar {
+  transform-origin: 50% 0;
+  animation: sequence-header-hull 680ms 40ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.app-header__bar::before { animation: header-energy-line 560ms 310ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.app-header__brand { animation: sequence-header-module 500ms 300ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__nav { animation: sequence-header-module 540ms 440ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__nav a { animation: sequence-nav-node 420ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__nav a:nth-child(1) { animation-delay: 570ms; }
+.app-header__nav a:nth-child(2) { animation-delay: 690ms; }
+.app-header__nav a:nth-child(3) { animation-delay: 810ms; }
+.app-header__actions { animation: sequence-header-module 520ms 840ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__availability { animation: sequence-control-online 380ms 980ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__contact { animation: sequence-control-online 420ms 1100ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__conduit--left { animation: sequence-conduit 460ms 250ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__conduit--right { animation: sequence-conduit 460ms 370ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__reactor-line { animation: header-energy-line 520ms 920ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+.app-header__mobile-brand { animation: sequence-header-module 520ms 300ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.app-header__mobile-toggle { animation: sequence-control-online 420ms 720ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.home-deck__sector--core {
+  transform-origin: 50% 0;
+  animation: sequence-core-dock 900ms 1420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home-deck__sector--port {
+  transform-origin: 100% 50%;
+  animation: sequence-port-deploy 760ms 2300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home-deck__sector--starboard {
+  transform-origin: 0 50%;
+  animation: sequence-starboard-deploy 760ms 2420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home-deck__energy-rail {
+  transform-origin: 50%;
+  animation: sequence-rail-ignite 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home-deck__sector--core .home-deck__energy-rail { animation-delay: 1720ms; }
+.home-deck__sector--port .home-deck__energy-rail { animation-delay: 2540ms; }
+.home-deck__sector--starboard .home-deck__energy-rail { animation-delay: 2660ms; }
+
+@keyframes sequence-header-hull {
+  0% { opacity: 0; scale: 1 0.18; filter: blur(10px) brightness(2); }
+  58% { opacity: 1; scale: 1 1.025; filter: blur(0) brightness(1.16); }
+  100% { opacity: 1; scale: 1; filter: none; }
+}
+
+@keyframes sequence-header-module {
+  0% { opacity: 0; translate: 0 -14px; filter: blur(7px) brightness(1.6); }
+  65% { opacity: 1; translate: 0 2px; filter: blur(0) brightness(1.1); }
+  100% { opacity: 1; translate: 0; filter: none; }
+}
+
+@keyframes sequence-nav-node {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.72); filter: blur(5px) brightness(1.8); }
+  68% { opacity: 1; transform: translateY(1px) scale(1.06); filter: blur(0) brightness(1.16); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes sequence-control-online {
+  0% { opacity: 0; transform: translateX(16px) scale(0.86); filter: blur(6px) brightness(1.55); }
+  70% { opacity: 1; transform: translateX(-2px) scale(1.025); filter: blur(0) brightness(1.08); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes sequence-conduit {
+  from { opacity: 0; scale: 0 1; filter: brightness(2); }
+  to { opacity: 1; scale: 1; filter: none; }
+}
+
+@keyframes sequence-core-dock {
+  0% { opacity: 0; scale: 0.14 0.015; filter: blur(10px) brightness(2.4) drop-shadow(0 0 28px rgb(var(--violet-rgb) / 70%)); }
+  48% { opacity: 1; scale: 0.82 0.72; filter: blur(1px) brightness(1.28) drop-shadow(0 0 22px rgb(var(--violet-rgb) / 34%)); }
+  76% { scale: 1.012 1.025; filter: blur(0) brightness(1.08) drop-shadow(0 20px 34px rgb(0 0 0 / 42%)); }
+  100% { opacity: 1; scale: 1; filter: drop-shadow(0 18px 30px rgb(0 0 0 / 38%)); }
+}
+
+@keyframes sequence-port-deploy {
+  0% { opacity: 0; clip-path: inset(0 0 0 100%); translate: 22px 0; filter: blur(8px) brightness(1.7); }
+  72% { opacity: 1; clip-path: inset(0); translate: -2px 0; filter: blur(0) brightness(1.08); }
+  100% { opacity: 1; clip-path: inset(0); translate: 0; filter: drop-shadow(0 18px 30px rgb(0 0 0 / 38%)); }
+}
+
+@keyframes sequence-starboard-deploy {
+  0% { opacity: 0; clip-path: inset(0 100% 0 0); translate: -22px 0; filter: blur(8px) brightness(1.7); }
+  72% { opacity: 1; clip-path: inset(0); translate: 2px 0; filter: blur(0) brightness(1.08); }
+  100% { opacity: 1; clip-path: inset(0); translate: 0; filter: drop-shadow(0 18px 30px rgb(0 0 0 / 38%)); }
+}
+
+@keyframes sequence-rail-ignite {
+  0% { opacity: 0; scale: 0 1; filter: brightness(2.5); }
+  65% { opacity: 1; scale: 1.08 1; filter: brightness(1.45); }
+  100% { opacity: 1; scale: 1; filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-header__bar,
+  .app-header__bar::before,
+  .app-header__brand,
+  .app-header__mobile-brand,
+  .app-header__mobile-toggle,
+  .app-header__nav,
+  .app-header__nav a,
+  .app-header__actions,
+  .app-header__availability,
+  .app-header__contact,
+  .app-header__conduit,
+  .app-header__reactor-line,
+  .home-deck__sector,
+  .home-deck__energy-rail { animation: none; }
+}
