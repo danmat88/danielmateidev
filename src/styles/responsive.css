@@ -1,5 +1,28 @@
 /* Geometry only. Visual identity remains in app.css. */
 
+@media (hover: none) and (pointer: coarse) {
+  html,
+  body,
+  .app-root,
+  .app-root a,
+  .app-root button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .app-header,
+  .app-header a,
+  .app-header button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .app-root a,
+  .app-root button { touch-action: manipulation; }
+
+  .app-root a:focus:not(:focus-visible),
+  .app-root button:focus:not(:focus-visible) { outline: none; }
+}
+
 .app-header,
 .app-header__bar { width: 100%; max-width: none; }
 
