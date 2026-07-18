@@ -242,7 +242,8 @@ export function AppBackground({ onReady }: AppBackgroundProps) {
       gl.drawArrays(gl.TRIANGLES, 0, 6)
     }
     const resize = () => {
-      const dpr = Math.min(devicePixelRatio || 1, mobile ? 1 : 1.65)
+      // Keep the dense shader inexpensive on phones and high-DPI displays.
+      const dpr = Math.min(devicePixelRatio || 1, mobile ? 0.78 : 1.35)
       canvas.width = Math.round(innerWidth * dpr)
       canvas.height = Math.round(innerHeight * dpr)
       gl.viewport(0, 0, canvas.width, canvas.height)

@@ -3,6 +3,7 @@ import { AppBackground } from './components/AppBackground'
 import { AppHeader } from './components/AppHeader'
 import { BootLoader } from './components/BootLoader'
 import './styles/app.css'
+import './styles/responsive.css'
 
 function App() {
   const [loaderVisible, setLoaderVisible] = useState(true)

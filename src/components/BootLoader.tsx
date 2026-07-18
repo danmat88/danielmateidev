@@ -16,8 +16,8 @@ const modules: Array<{ key: keyof Readiness; label: string }> = [
   { key: 'background', label: 'WEBGL SCENE' },
 ]
 
-const MINIMUM_PRESENTATION_MS = 3200
-const EXIT_TRANSITION_MS = 750
+const MINIMUM_PRESENTATION_MS = 1800
+const EXIT_TRANSITION_MS = 480
 
 export function BootLoader({ ready, readiness, onComplete }: BootLoaderProps) {
   const [leaving, setLeaving] = useState(false)
