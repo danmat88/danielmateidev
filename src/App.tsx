@@ -1,16 +1,52 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { AppBackground } from './components/AppBackground'
-import { AppHeader } from './components/AppHeader'
+import { useInterfaceAudio } from './audio/useInterfaceAudio'
+import { AppBackground, type BackgroundScene } from './components/AppBackground'
 import { BootLoader } from './components/BootLoader'
-import { HomeDeck } from './components/HomeDeck'
+import { CreationConsole } from './components/CreationConsole'
 import './styles/app.css'
 import './styles/responsive.css'
+import './styles/console.css'
 
 function App() {
   const [loaderVisible, setLoaderVisible] = useState(true)
+  const [interfaceSettled, setInterfaceSettled] = useState(false)
   const [readiness, setReadiness] = useState({ dom: false, fonts: false, shell: false, background: false })
+  const [backgroundScene, setBackgroundScene] = useState<BackgroundScene>(() => {
+    const stored = localStorage.getItem('dm-background-scene')
+    return stored === 'code' ? 'code' : 'space'
+  })
+  const [soundEnabled, setSoundEnabled] = useState(() => localStorage.getItem('dm-sound-enabled') === 'true')
+  const [effectsEnabled, setEffectsEnabled] = useState(() => localStorage.getItem('dm-effects-enabled') !== 'false')
+  const { play: playAudio, enable: enableAudio, disable: disableAudio } = useInterfaceAudio(soundEnabled)
   const removeLoader = useCallback(() => setLoaderVisible(false), [])
   const markBackgroundReady = useCallback(() => setReadiness((state) => ({ ...state, background: true })), [])
+
+  useEffect(() => localStorage.setItem('dm-background-scene', backgroundScene), [backgroundScene])
+  useEffect(() => localStorage.setItem('dm-sound-enabled', String(soundEnabled)), [soundEnabled])
+  useEffect(() => localStorage.setItem('dm-effects-enabled', String(effectsEnabled)), [effectsEnabled])
+
+  useEffect(() => {
+    if (loaderVisible) return
+    const settleTimer = window.setTimeout(() => setInterfaceSettled(true), 2450)
+    return () => window.clearTimeout(settleTimer)
+  }, [loaderVisible])
+
+  const cycleBackground = useCallback(() => {
+    playAudio('scene')
+    setBackgroundScene((scene) => scene === 'space' ? 'code' : 'space')
+  }, [playAudio])
+
+  const toggleSound = useCallback(() => {
+    const nextEnabled = !soundEnabled
+    if (nextEnabled) enableAudio()
+    else disableAudio()
+    setSoundEnabled(nextEnabled)
+  }, [disableAudio, enableAudio, soundEnabled])
+
+  const toggleEffects = useCallback(() => {
+    playAudio('performance')
+    setEffectsEnabled((enabled) => !enabled)
+  }, [playAudio])
 
   useEffect(() => {
     let cancelled = false
@@ -40,14 +76,19 @@ function App() {
   const appReady = completedTasks === Object.keys(readiness).length
 
   return (
-    <main className="app-root">
-      <AppBackground onReady={markBackgroundReady} />
+    <main className={`app-root${effectsEnabled ? '' : ' is-low-power'}${interfaceSettled ? ' has-entered' : ''}`}>
+      <AppBackground scene={backgroundScene} effectsEnabled={effectsEnabled} onReady={markBackgroundReady} />
       {loaderVisible && <BootLoader ready={appReady} readiness={readiness} onComplete={removeLoader} />}
       {!loaderVisible && (
-        <>
-          <AppHeader />
-          <HomeDeck />
-        </>
+        <CreationConsole
+          backgroundScene={backgroundScene}
+          soundEnabled={soundEnabled}
+          effectsEnabled={effectsEnabled}
+          onCycleBackground={cycleBackground}
+          onToggleSound={toggleSound}
+          onToggleEffects={toggleEffects}
+          onNavigate={() => playAudio('navigate')}
+        />
       )}
     </main>
   )

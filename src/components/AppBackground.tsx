@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { CodeBackground } from './CodeBackground'
 
 const vertexShader = `
 attribute vec2 position;
@@ -196,16 +197,24 @@ void main() {
 }
 `
 
-type AppBackgroundProps = { onReady?: () => void }
+type SpaceBackgroundProps = {
+  active: boolean
+  effectsEnabled: boolean
+  onReady?: () => void
+}
 
-export function AppBackground({ onReady }: AppBackgroundProps) {
+function SpaceBackground({ active, effectsEnabled, onReady }: SpaceBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
     const gl = canvas?.getContext('webgl', { alpha: false, antialias: false })
-    if (!canvas || !gl) return
+    if (!canvas || !gl) {
+      setReady(true)
+      onReady?.()
+      return
+    }
 
     const compile = (type: number, source: string) => {
       const shader = gl.createShader(type)
@@ -238,12 +247,15 @@ export function AppBackground({ onReady }: AppBackgroundProps) {
     const render = () => {
       gl.uniform2f(resolution, canvas.width, canvas.height)
       gl.uniform2f(pointer, 0.5, 0.5)
-      gl.uniform1f(clock, 0)
+      gl.uniform1f(clock, effectsEnabled ? 8 : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 6)
     }
     const resize = () => {
-      // Keep the dense shader inexpensive on phones and high-DPI displays.
-      const dpr = Math.min(devicePixelRatio || 1, mobile ? 0.78 : 1.35)
+      // The shader is intentionally rendered once. A pixel budget prevents a
+      // 4K or high-DPI display from multiplying fragment work unnecessarily.
+      const pixelBudget = effectsEnabled ? (mobile ? 520_000 : 1_400_000) : 360_000
+      const budgetRatio = Math.sqrt(pixelBudget / Math.max(1, innerWidth * innerHeight))
+      const dpr = Math.min(devicePixelRatio || 1, budgetRatio, effectsEnabled ? (mobile ? 0.72 : 1) : 0.58)
       canvas.width = Math.round(innerWidth * dpr)
       canvas.height = Math.round(innerHeight * dpr)
       gl.viewport(0, 0, canvas.width, canvas.height)
@@ -264,7 +276,32 @@ export function AppBackground({ onReady }: AppBackgroundProps) {
       gl.deleteProgram(program)
       gl.deleteBuffer(buffer)
     }
-  }, [onReady])
+  }, [effectsEnabled, onReady])
 
-  return <canvas ref={canvasRef} className={`app-background${ready ? ' is-ready' : ''}`} aria-hidden="true" />
+  return <canvas ref={canvasRef} className={`app-background app-background--space${ready ? ' is-ready' : ''}${active ? ' is-active' : ''}`} aria-hidden="true" />
+}
+
+export type BackgroundScene = 'space' | 'code'
+
+type AppBackgroundProps = {
+  scene: BackgroundScene
+  effectsEnabled: boolean
+  onReady?: () => void
+}
+
+export function AppBackground({ scene, effectsEnabled, onReady }: AppBackgroundProps) {
+  const [readyScenes, setReadyScenes] = useState<Record<BackgroundScene, boolean>>({ space: false, code: false })
+  const markSpaceReady = useCallback(() => setReadyScenes((state) => ({ ...state, space: true })), [])
+  const markCodeReady = useCallback(() => setReadyScenes((state) => ({ ...state, code: true })), [])
+
+  useEffect(() => {
+    if (readyScenes[scene]) onReady?.()
+  }, [onReady, readyScenes, scene])
+
+  return (
+    <div className="app-background-stage" aria-hidden="true">
+      <SpaceBackground active={scene === 'space'} effectsEnabled={effectsEnabled} onReady={markSpaceReady} />
+      <CodeBackground active={scene === 'code'} effectsEnabled={effectsEnabled} onReady={markCodeReady} />
+    </div>
+  )
 }
